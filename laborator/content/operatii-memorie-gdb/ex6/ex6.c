@@ -8,9 +8,8 @@ int main() {
 
 	unsigned int *int_ptr = (unsigned int *) &v;
 
-	for (int i = 0 ; i < sizeof(v) / sizeof(*int_ptr) ; ++i) {
+	for (int i = 0 ; i < sizeof(v) / sizeof(*int_ptr) ; ++i)
 		++int_ptr;
-	}
 
 	return 0;
 }

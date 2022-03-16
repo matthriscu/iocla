@@ -8,7 +8,32 @@
  */
 
 int main() {
-    int v[] = {0xCAFEBABE, 0xDEADBEEF, 0x0B00B135, 0xBAADF00D, 0xDEADC0DE};
+	int v[] = {0xCAFEBABE, 0xDEADBEEF, 0x0B00B135, 0xBAADF00D, 0xDEADC0DE};
 
-    return 0;
+	int n = sizeof(v) / sizeof(v[0]);
+
+	for (int i = 0; i < n; ++i) {
+		char *p = (char *)(v + i);
+		for (int j = 0; j < sizeof(int) / sizeof(char); ++j) {
+			printf("%p: 0x%X\n", p, p[j]);
+			++p;
+		}
+	}
+
+	printf("\n");
+
+	for (int i = 0; i < n; ++i) {
+		short *p = (short *)(v + i);
+		for (int j = 0; j < sizeof(int) / sizeof(short); ++j) {
+			printf("%p: 0x%X\n", p, p[j]);
+			++p;
+		}
+	}
+
+	printf("\n");
+
+	for (int i = 0; i < n; ++i)
+		printf("%p: 0x%X\n", v + i, v[i]);
+
+	return 0;
 }
