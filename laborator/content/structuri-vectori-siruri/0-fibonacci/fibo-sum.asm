@@ -21,7 +21,19 @@ main:
     ;       (f(0) = 0, f(1) = 1)
     xor eax, eax     ;store the sum in eax
 
+    mov ecx, [N]
+    mov ebx, 1
+    mov edx, 1
+
+calc:
+    mov eax, ebx
+    add eax, edx
+    mov edx, ebx
+    mov ebx, eax
+    loop calc
     ; use loop instruction
+
+    dec eax
 
     push eax
     push print_format_2
