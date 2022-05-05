@@ -15,6 +15,18 @@ main:
 
     ; TODO push the elements of the array on the stack
     ; TODO retrieve the elements (pop) from the stack into the output array
+    mov ebp, esp
+
+    mov ecx, ARRAY_LEN
+array:
+    push dword [input + 4 * ecx - 4]
+    loop array
+
+    mov ecx, ARRAY_LEN
+reversed:
+    pop dword [output + 4 * ecx - 4]
+    loop reversed
+    
 
     PRINTF32 `Reversed array: \n\x0`
     xor ecx, ecx
@@ -26,4 +38,5 @@ print_array:
     jb print_array
 
     xor eax, eax
+    mov esp, ebp
     ret
