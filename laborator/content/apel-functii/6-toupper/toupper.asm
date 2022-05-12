@@ -13,7 +13,22 @@ toupper:
     mov ebp, esp
 
     ; TODO
+    mov ebx, mystring
 
+solve:
+    cmp byte [ebx], 'a'
+    jl end
+    cmp byte [ebx], 'z'
+    jg end
+    and byte [ebx], 223
+
+end:
+    inc ebx
+    cmp byte [ebx], 0
+    jz out
+    jmp solve
+
+out:
     leave
     ret
 
