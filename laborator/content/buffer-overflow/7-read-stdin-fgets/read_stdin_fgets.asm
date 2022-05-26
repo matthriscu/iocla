@@ -4,12 +4,12 @@
 ; Fill buffer with data from standard input.
 ; Buffer is stored on the stack.
 ;
-; AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFLOW
 
 extern printf
 extern puts
 extern strlen
-extern gets
+extern fgets
+extern stdin
 
 section .data
     read_message: db "insert buffer string: ", 0
@@ -42,10 +42,12 @@ main:
     call printf
     add esp, 4
 
+    push dword [stdin]
+    push dword 63
     lea ebx, [ebp-68]
     push ebx
-    call gets
-    add esp, 4
+    call fgets
+    add esp, 12
 
     ; Push string length on the stack.
     ; String length is stored at ebp-72.
