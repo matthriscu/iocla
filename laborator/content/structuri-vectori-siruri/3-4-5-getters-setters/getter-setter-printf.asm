@@ -1,4 +1,5 @@
 %include "../utils/printf32.asm"
+extern strcpy
 
 struc my_struct
     int_x: resb 4
@@ -34,6 +35,8 @@ get_int:
     ; Do not modify them.
     push ebp
     mov ebp, esp
+    mov ebx, [ebp + 8]
+    mov eax, [ebx + int_x]
 
     ; The first argument is a pointer to the beginning of the structure, so you
     ; must use it to calculate the actual address of the data you want to get.
@@ -52,6 +55,8 @@ get_char:
     ; Do not modify them.
     push ebp
     mov ebp, esp
+    mov ebx, [ebp + 8]
+    mov eax, [ebx + char_y]
 
     ; The first argument is a pointer to the beginning of the structure, so you
     ; must use it to calculate the actual address of the data you want to get.
@@ -70,6 +75,8 @@ get_string:
     ; Do not modify them.
     push ebp
     mov ebp, esp
+    mov ebx, [ebp + 8]
+    lea eax, [ebx + string_s]
 
     ; The first argument is a pointer to the beginning of the structure, so you
     ; must use it to calculate the actual address of the data you want to get.
@@ -89,6 +96,10 @@ set_int:
     push ebp
     mov ebp, esp
 
+    mov ebx, [ebp + 8]
+    mov edx, [ebp + 12]
+    mov [ebx + int_x], edx
+
     ; The first argument is a pointer to the beginning of the structure, so you
     ; must use it to calculate the actual address of the data you want to set.
 
@@ -106,6 +117,10 @@ set_char:
     push ebp
     mov ebp, esp
 
+    mov ebx, [ebp + 8]
+    mov edx, [ebp + 12]
+    mov [ebx + char_y], edx
+
     ; The first argument is a pointer to the beginning of the structure, so you
     ; must use it to calculate the actual address of the data you want to set.
 
@@ -122,6 +137,14 @@ set_string:
     ; Do not modify them.
     push ebp
     mov ebp, esp
+
+    mov ebx, [ebp + 8]
+    lea ebx, [ebx + string_s]
+    mov edx, [ebp + 12]
+    push edx
+    push ebx
+    call strcpy
+    ; mov [ebx + string_s], edx
 
     ; The first argument is a pointer to the beginning of the structure, so you
     ; must use it to calculate the actual address of the data you want to set.
@@ -145,11 +168,11 @@ main:
     call get_int
     add esp, 4
 
-    ;uncomment when get_int is ready
-    ;push eax
-    ;push int_format
-    ;call printf
-    ;add esp, 8
+    ; uncomment when get_int is ready
+    push eax
+    push int_format
+    call printf
+    add esp, 8
 
     movzx edx, byte [new_char]
     ; movzx is the same as
@@ -165,10 +188,10 @@ main:
     add esp, 4
 
     ;uncomment when get_char is ready
-    ;push eax
-    ;push char_format
-    ;call printf
-    ;add esp, 8
+    push eax
+    push char_format
+    call printf
+    add esp, 8
 
     mov edx, new_string
     push edx
@@ -181,10 +204,10 @@ main:
     add esp, 4
 
     ;uncomment when get_string is ready
-    ;push eax
-    ;push string_format
-    ;call printf
-    ;add esp, 8
+    push eax
+    push string_format
+    call printf
+    add esp, 8
 
     xor eax, eax
     leave
